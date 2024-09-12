@@ -40,34 +40,26 @@ stopAiSpeak.addEventListener("click", () => {
 });
 
 recognition.addEventListener("result", (event) => {
+  if (!isListeningForElisa) return;
+
   const transcript = Array.from(event.results)
     .map((result) => result[0].transcript)
     .join("");
 
-  if (!isListeningForElisa && transcript.toLowerCase().includes("elisa")) {
-    isListeningForElisa = true;
-    capturedText = "";
-    console.log("Escuchando después de 'Elisa'...");
-    transcription.textContent = "Escuchando...";
-    clearTimeout(elisaTimeout);
-    elisaTimeout = setTimeout(processElisaCommand, 3000);
-  } else if (isListeningForElisa) {
-    // Capturar todo el texto después de "Elisa"
-    const elisaIndex = transcript.toLowerCase().lastIndexOf("elisa");
-    if (elisaIndex !== -1) {
-      capturedText = transcript.slice(elisaIndex + 5).trim();
-    } else {
-      capturedText = transcript.trim();
-    }
-    transcription.textContent = capturedText;
-    clearTimeout(elisaTimeout);
-    elisaTimeout = setTimeout(processElisaCommand, 3000);
+  const elisaIndex = transcript.toLowerCase().lastIndexOf("elisa");
+  if (elisaIndex !== -1) {
+    capturedText = transcript.slice(elisaIndex + 5).trim();
+  } else {
+    capturedText = transcript.trim();
   }
+  transcription.textContent = capturedText;
+  clearTimeout(elisaTimeout);
+  elisaTimeout = setTimeout(processElisaCommand, 3000);
 });
 
 recognition.addEventListener("end", () => {
   console.log("Reconocimiento de voz detenido.");
-  if (isSpeak) {
+  if (isSpeak && !isListeningForElisa) {
     recognition.start();
   }
 });
@@ -75,19 +67,21 @@ recognition.addEventListener("end", () => {
 function processElisaCommand() {
   if (capturedText) {
     console.log("Procesando comando de Elisa:", capturedText);
+    pauseListening();
     speak(capturedText);
   } else {
     console.log("No se capturó ningún comando después de 'Elisa'");
     transcription.textContent =
       "No se detectó ningún comando. Di 'Elisa' para empezar de nuevo.";
+    resetElisaListening();
   }
-  resetElisaListening();
 }
 
 function resetElisaListening() {
   isListeningForElisa = false;
   capturedText = "";
   clearTimeout(elisaTimeout);
+  transcription.textContent = "Di 'Elisa' para empezar...";
 }
 
 function startRecognition() {
@@ -98,6 +92,22 @@ function startRecognition() {
   startBtn.innerHTML = "Stop Recording";
   startBtn.style.backgroundColor = "orange";
   transcription.textContent = "Di 'Elisa' para empezar...";
+
+  // Agregar evento para detectar "Elisa"
+  recognition.onresult = function (event) {
+    const transcript = Array.from(event.results)
+      .map((result) => result[0].transcript)
+      .join("");
+
+    if (transcript.toLowerCase().includes("elisa") && !isListeningForElisa) {
+      speechSynthesis.cancel();
+
+      console.log("'Elisa' detectado. Comenzando a escuchar...");
+      isListeningForElisa = true;
+      capturedText = "";
+      transcription.textContent = "Escuchando...";
+    }
+  };
 }
 
 function stopRecognition() {
@@ -108,6 +118,11 @@ function stopRecognition() {
   startBtn.innerHTML = "User Speak NOW!";
   startBtn.style.backgroundColor = "greenyellow";
   transcription.textContent = "";
+}
+
+function pauseListening() {
+  isListeningForElisa = false;
+  recognition.stop();
 }
 
 async function speak(userText) {
@@ -137,6 +152,7 @@ async function speak(userText) {
   utterance.addEventListener("end", () => {
     console.log("Síntesis de voz completada.");
     transcription.textContent = "Di 'Elisa' para empezar de nuevo...";
+    startRecognition();
   });
 
   speechSynthesis.speak(utterance);
