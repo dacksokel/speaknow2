@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>IA Practicar conversacion Idiomas</title>
+</head>
+
+<body>
+    <h1>IA SPEAK NOW: LANG = <span id="langSelecter">ES</span></h1>
+    <div>
+        <p>
+            la intencion es que se pueda establecer una conversacion con la ia para practicar un idioma, en este momento estan 3
+            configurados,
+            para usarlo debes seleccionar el idioma en el cual debes seleccionar y luego de alli dale click al boton de SPEAK NOW!!
+            una vez hecho cuando termines de hablar
+            dale en stop y espera la respuesta que te dara la IA
+        </p>
+
+        <p>
+            estee seguro de activar el microfono cuando de click en SPEAK NOW!!
+        </p>
+    </div>
+    <br>
+    <span>Select a Lang: </span>
+    <select name="" id="langs">
+        <option value="es">es</option>
+        <option value="en">en</option>
+        <!-- <option value="en">en</option> -->
+        <option value="zh-CN">ch</option>
+    </select>
+    <button id="btnSelectLang">Lang Select</button>
+    <br><br>
+    <button id="start-btn" style="background-color: greenyellow;">User Speak NOW!</button>
+    <button id="stop-btn" style="background-color: red;">Stop to Speak AI</button>
+    <button id="delete-allspeck">delete allSpeaks</button>
+    <textarea name="codeArea" id="codeArea"></textarea>
+    <br><br>
+    <div id="transcription"></div>
+    <br><br>
+    <div id="airesponse"></div>
+    <script src="./index.js"></script>
+</body>
+
+</html>
