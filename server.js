@@ -14,9 +14,9 @@ const main =async  () => {
   const client = new LMStudioClient();
   model = await client.llm.load(
     // "mradermacher/Magot-v1-Gemma2-8k-9B-GGUF/Magot-v1-Gemma2-8k-9B.Q4_K_S.gguf",
-    // "lmstudio-community/gemma-2-2b-it-GGUF/gemma-2-2b-it-Q6_K.gguf",
+    "lmstudio-community/gemma-2-2b-it-GGUF/gemma-2-2b-it-Q6_K.gguf",
     // "Orenguteng/Llama-3.1-8B-Lexi-Uncensored-V2-GGUF/Llama-3.1-8B-Lexi-Uncensored_V2_Q8.gguf",
-    "microsoft/Phi-3-mini-4k-instruct-gguf/Phi-3-mini-4k-instruct-q4.gguf",
+    // "microsoft/Phi-3-mini-4k-instruct-gguf/Phi-3-mini-4k-instruct-q4.gguf",
     {
       // config: { gpuOffload: "max" },
       noHup: true,
