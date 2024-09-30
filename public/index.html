@@ -3,6 +3,28 @@
 
 <head>
     <title>IA Practicar conversacion Idiomas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        
+        select {
+            width: 200px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        
+        #start-btn, #stop-btn {
+            margin: 10px;
+        }
+    </style>
 </head>
 
 <body>
@@ -21,16 +43,14 @@
         </p>
     </div>
     <br>
-    <span>Select a Lang: </span>
     <select name="" id="langs">
-        <option value="es">es</option>
-        <option value="en">en</option>
+        <option value="es">Spanish</option>
+        <option value="en">English</option>
         <!-- <option value="en">en</option> -->
-        <option value="zh-CN">ch</option>
+        <option value="zh-CN">Mandarin</option>
     </select>
-    <button id="btnSelectLang">Lang Select</button>
     <br><br>
-    <button id="start-btn" style="background-color: greenyellow;">User Speak NOW!</button>
+    <button id="start-btn" style="background-color: greenyellow;">Start Conversation</button>
     <button id="stop-btn" style="background-color: red;">Stop to Speak AI</button>
     <button id="delete-allspeck">delete allSpeaks</button>
     <textarea name="codeArea" id="codeArea"></textarea>
