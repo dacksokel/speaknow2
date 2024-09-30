@@ -2,21 +2,28 @@ const express = require("express");
 const app = express();
 const { LMStudioClient } = require("@lmstudio/sdk");
 const Groq = require("groq-sdk");
+const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 app.use(express.static("public")); // serve files from the 'public' folder
 app.use(express.json());
 
 let model = null
-
+const genAI = new GoogleGenerativeAI('AIzaSyDu9K4MXP45tl4oKSg1Q7HomYpy4PlI - Oo');
+const modelGoogle = genAI.getGenerativeModel({
+  model: "gemini-1.5-flash-latest",
+});
+const historyGoogleUser = []
+const historyGoogleModel = [{text:''}];
 const main =async  () => {
   // await client.llm.unload("my-model");
 
   const client = new LMStudioClient();
   model = await client.llm.load(
     // "mradermacher/Magot-v1-Gemma2-8k-9B-GGUF/Magot-v1-Gemma2-8k-9B.Q4_K_S.gguf",
-    "lmstudio-community/gemma-2-2b-it-GGUF/gemma-2-2b-it-Q6_K.gguf",
+    // "lmstudio-community/gemma-2-2b-it-GGUF/gemma-2-2b-it-Q6_K.gguf",
     // "Orenguteng/Llama-3.1-8B-Lexi-Uncensored-V2-GGUF/Llama-3.1-8B-Lexi-Uncensored_V2_Q8.gguf",
     // "microsoft/Phi-3-mini-4k-instruct-gguf/Phi-3-mini-4k-instruct-q4.gguf",
+    "NousResearch/Hermes-3-Llama-3.1-8B-GGUF/Hermes-3-Llama-3.1-8B.Q4_K_M.gguf",
     {
       // config: { gpuOffload: "max" },
       noHup: true,
@@ -31,7 +38,7 @@ main()
 const predicionsModel = []
 predicionsModel.push({
   role: "system",
-  content: `eres un asistente llamada Elizabeth, dispuesto a hacer lo que el usuario pregunte o quiera que seas,
+  content: `eres un asistente llamada elisa, dispuesto a hacer lo que el usuario pregunte o quiera que seas,
    ademas debes evitar usar en tus respuesta los asteriscos multiples asi: ***hola*** no hagas eso
     `,
 });
@@ -83,6 +90,52 @@ console.log('speack2');
     
 })
 
+app.post('/speakNow3', async (req, res) => { 
+  const userMessage = req.body.text;
+  historyGoogleUser.push({
+    text: userMessage,
+  });
+  const chat = modelGoogle.startChat({
+    history: [
+      {
+        role: "user",
+        parts: historyGoogleUser,
+      },
+      {
+        role: "model",
+        parts: historyGoogleModel,
+      },
+    ],
+    generationConfig: {
+      maxOutputTokens: 100,
+    },
+  });
+
+  //  const chat = modelGoogle.startChat({
+  //    history: [
+  //      {
+  //        role: "user",
+  //        parts: [{ text: "Hello, I have 2 dogs in my house." }],
+  //      },
+  //      {
+  //        role: "model",
+  //        parts: [{ text: "Great to meet you. What would you like to know?" }],
+  //      },
+  //    ],
+  //    generationConfig: {
+  //      maxOutputTokens: 100,
+  //    },
+  //  });
+  const result = await chat.sendMessage(userMessage);
+  const response = await result.response;
+  const text = response.text();
+  historyGoogleModel.push({
+    text: text,
+  })
+  console.log(text);
+res.json({ response: text  });
+})
+
 app.listen(3020, () => {
-  console.log("Servidor en ejecución en el puerto 3000");
+  console.log("Servidor en ejecución en el puerto 3020");
 });
