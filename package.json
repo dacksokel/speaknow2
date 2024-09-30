@@ -6,7 +6,7 @@
     "groq-sdk": "^0.7.0"
   },
   "scripts": {
-    "start:dev": "nodemon --exec 'node' .",
+    "dev":"nodemon server.js",
     "start": "npm run start:dev"
   },
   "devDependencies": {
