@@ -17,7 +17,7 @@ let isListeningForElisa = false;
 let elisaTimeout;
 let capturedText = "";
 
-btnSelectLang.addEventListener("click", () => {
+selectLang.addEventListener("click", () => {
   recognition.lang = selectLang.value;
   langSelecter.innerText = selectLang.value;
 });
@@ -134,7 +134,7 @@ async function speak(userText) {
     allSpeaks = allSpeaks.slice(-charLimit);
   }
 
-  const data = await fetch(window.location.origin + "/speakNow4", {
+  const data = await fetch(window.location.origin + "/speakNow", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ text: userText }),

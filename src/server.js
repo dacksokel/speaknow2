@@ -23,17 +23,18 @@ const main =async  () => {
     // "lmstudio-community/gemma-2-2b-it-GGUF/gemma-2-2b-it-Q6_K.gguf",
     // "Orenguteng/Llama-3.1-8B-Lexi-Uncensored-V2-GGUF/Llama-3.1-8B-Lexi-Uncensored_V2_Q8.gguf",
     // "microsoft/Phi-3-mini-4k-instruct-gguf/Phi-3-mini-4k-instruct-q4.gguf",
-    "NousResearch/Hermes-3-Llama-3.1-8B-GGUF/Hermes-3-Llama-3.1-8B.Q4_K_M.gguf",
+    // "NousResearch/Hermes-3-Llama-3.1-8B-GGUF/Hermes-3-Llama-3.1-8B.Q4_K_M.gguf",
+    "hugging-quants/Llama-3.2-3B-Instruct-Q8_0-GGUF/llama-3.2-3b-instruct-q8_0.gguf",
     {
       // config: { gpuOffload: "max" },
       noHup: true,
       identifier:
-        "mradermacher/Magot-v1-Gemma2-8k-9B-GGUF/Magot-v1-Gemma2-8k-9B.Q4_K_S.gguf",
+        "lmStudio model",
     }
   );
 }
 
-// main()
+main()
 
 const predicionsModel = []
 predicionsModel.push({
@@ -137,6 +138,7 @@ res.json({ response: text  });
 })
 
 app.post('/speakNow4', require('./ollama/controller'))
+app.post("/speakNow5", require("./openRouter/controller"));
 
 app.listen(3020, () => {
   console.log("Servidor en ejecución en el puerto 3020");
