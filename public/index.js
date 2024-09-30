@@ -134,7 +134,7 @@ async function speak(userText) {
     allSpeaks = allSpeaks.slice(-charLimit);
   }
 
-  const data = await fetch(window.location.origin + "/speakNow", {
+  const data = await fetch(window.location.origin + "/speakNow4", {
     method: "POST",
     headers: { "content-type": "application/json" },
     body: JSON.stringify({ text: userText }),

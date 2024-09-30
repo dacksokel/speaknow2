@@ -33,7 +33,7 @@ const main =async  () => {
   );
 }
 
-main()
+// main()
 
 const predicionsModel = []
 predicionsModel.push({
@@ -135,6 +135,8 @@ app.post('/speakNow3', async (req, res) => {
   console.log(text);
 res.json({ response: text  });
 })
+
+app.post('/speakNow4', require('./ollama/controller'))
 
 app.listen(3020, () => {
   console.log("Servidor en ejecución en el puerto 3020");
