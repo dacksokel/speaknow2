@@ -13,10 +13,11 @@ module.exports = async (req, res) => {
     return res.status(400).json({ error: "No se proporcionó texto para enviar." });
   }
 
+  const userMessage = req.body.text;
   try {
     messages.push({
       role: "user",
-      content: req.body.text,
+      content: userMessage,
     });
 
     const response = await fetch(ConfigJson.urlServer, {
@@ -27,7 +28,7 @@ module.exports = async (req, res) => {
       },
       body: JSON.stringify({
         model: ConfigJson.model,
-        messages: messages,
+        messages: {},
       }),
     });
 

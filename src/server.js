@@ -10,7 +10,7 @@ app.use(express.json());
 let model = null
 const genAI = new GoogleGenerativeAI('AIzaSyDu9K4MXP45tl4oKSg1Q7HomYpy4PlI - Oo');
 const modelGoogle = genAI.getGenerativeModel({
-  model: "gemini-1.5-flash-latest",
+  model: "gemini-1.5-flex-002",
 });
 const historyGoogleUser = []
 const historyGoogleModel = [{text:''}];
@@ -34,7 +34,7 @@ const main =async  () => {
   );
 }
 
-main()
+// main()
 
 const predicionsModel = []
 predicionsModel.push({
@@ -77,7 +77,7 @@ console.log('speack2');
        .create({
          messages: predicionsModel,
          //  model: "llama-3.1-70b-versatile",
-         model: "gemma2-9b-it",
+         model: "llama-3.2-90b-text-preview",
        })
        .then((chatCompletion) => {
          console.log(predicionsModel.length);
