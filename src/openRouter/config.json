@@ -1,5 +1,5 @@
 {
-    "apykey": "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",
+    "apykey": "",
     "model": "google/gemma-2-9b-it:free",
     "urlServer": "https://openrouter.ai/api/v1/chat/completions"
 }
