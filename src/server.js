@@ -8,7 +8,7 @@ app.use(express.static("public")); // serve files from the 'public' folder
 app.use(express.json());
 
 let model = null
-const genAI = new GoogleGenerativeAI('AIzaSyDu9K4MXP45tl4oKSg1Q7HomYpy4PlI - Oo');
+const genAI = new GoogleGenerativeAI('');
 const modelGoogle = genAI.getGenerativeModel({
   model: "gemini-1.5-flex-002",
 });
@@ -67,7 +67,7 @@ app.post('/speakNow2', async (req, res) => {
 console.log('speack2');
     const userMessage = req.body.text;
     const groq = new Groq({
-      apiKey: "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",
+      apiKey: "",
     });
 
   let response = '';
